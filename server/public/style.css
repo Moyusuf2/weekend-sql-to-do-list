@@ -1,0 +1,9 @@
+td{
+    height: 60px;
+    width: 0px;
+}
+th{
+    height: 10px;
+    width: 25px;  
+    position:relative;
+}
