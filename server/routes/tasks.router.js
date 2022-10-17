@@ -26,18 +26,20 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   console.log('req.body', req.body);
 
-  const sqlText = `INSERT INTO "tasks"
-  (task, isComplete)
-  VALUES ($1, $2)`
+
+  let sqlText = `INSERT INTO "tasks"
+  ("task", "isComplete")
+  VALUES ($1,$2)`
   ;
 
-  const sqlParams = [ 
+  let sqlParams = [ 
       req.body.task,
       req.body.isComplete 
   ];
 
   pool.query(sqlText, sqlParams) 
       .then((dbRes) => {
+        console.log(dbRes)
           res.sendStatus(201);
       })
       .catch((err) => {
