@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
     const sqlText = `
     SELECT * 
     FROM "tasks" 
-    ORDER BY "id";
+    ORDER BY "id" ASC;
     `;
     pool.query(sqlText)
     
@@ -22,47 +22,69 @@ router.get('/', (req, res) => {
     });
 });
 
+//to post new tasks 
 router.post('/', (req, res) => {
-    console.log(req.body.newTask,)
-    sqlText =`INSERT INTO "tasks" 
-    ("task")
-    VALUES 
-    ($1);`;
+  console.log('req.body', req.body);
 
-    const sqlParams = [
-      req.body.newTask
-    ]
-    // console.log(req.body);
-    pool.query(sqlText,sqlParams)
-        .then((res) => {
-            console.log("res is :",res);
-            res.send(res);
-        })
-        .catch((error) => {
-            console.log('ERROR in POST /', error);
-            res.sendStatus(500);
-        })
-   
-})
+  const sqlText = `INSERT INTO "tasks"
+  (task, isComplete)
+  VALUES ($1, $2)`
+  ;
 
-router.delete('/:id', (req, res) => {
-    console.log('req.params.id',req.params.id);
-    const sqlText = `
-    DELETE FROM "tasks"
-    WHERE "id"=$1;`;
-    
-    pool.query(sqlText,[req.params.id])
-    
+  const sqlParams = [ 
+      req.body.task,
+      req.body.isComplete 
+  ];
+
+  pool.query(sqlText, sqlParams) 
       .then((dbRes) => {
-        console.log(dbRes);
-        res.sendStatus(200);
+          res.sendStatus(201);
       })
       .catch((err) => {
-        console.log('error in DELETE', err);
-        res.sendStatus(500);
-      });
-  });
+          console.log('POST error', err);
+          res.sendStatus(500);
+      })
+});
 
+//to delete task
+router.delete('/:id', (req, res) =>{
+  const taskId = req.params.id;
+  const sqlText = `DELETE FROM "tasks" 
+              WHERE "id" = $1`;
+
+  const sqlParams = [taskId];
+
+  pool.query(sqlText, sqlParams)
+      .then((dbRes) => {
+          res.sendStatus(200);
+      }).catch((error) => {
+          console.log('delete error', error);
+          res.sendStatus(500);
+      });
+});
+
+//put request to change completion status
+router.put('/:id', (req, res) => {
+  console.log('task status');
+
+  // toggles complete status
+  const sqlText = `
+      UPDATE "tasks" 
+      SET "isComplete" = NOT "isComplete" 
+      WHERE "id" = $1
+  `;
+
+  const sqlParam = [req.params.id];
+
+  pool.query(sqlText, sqlParam) 
+      .then((dbRes) => {
+          res.sendStatus(200);
+      })
+      .catch((error) => {
+          console.log('error in complete task', error);
+          res.sendStatus(500);
+      })
+});
 
 
 

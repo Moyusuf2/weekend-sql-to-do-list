@@ -2,9 +2,8 @@ DROP TABLE IF EXISTS "tasks";
 
 CREATE TABLE "tasks" (
 	"id" SERIAL PRIMARY KEY,
-	"task" VARCHAR (255) NOT NULL,
-	"isComplete" BOOLEAN DEFAULT FALSE,
-	"isDeleted" BOOLEAN DEFAULT FALSE);
+	"task" VARCHAR (255),
+	"isComplete" BOOLEAN DEFAULT FALSE);
 	
 INSERT INTO "tasks"
 	("task","isComplete")
