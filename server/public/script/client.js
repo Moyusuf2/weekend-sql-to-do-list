@@ -68,7 +68,7 @@ function postTask(){
     $.ajax({
       method: "POST",
       url: "/tasks",
-      data: {newTask}
+      data: newTask
     })
     .then(response => {
       console.log("response is:",response);
