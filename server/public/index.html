@@ -10,21 +10,26 @@
     <title>SQL TO DO LIST</title>
 </head>
 <body>
-    <h1>To do list</h1>
-
-    <input type="text" placeholder="task" id="task">
-    <button type="button" id="addBtn">Add To List</button>
-
- <table>
-    <th>
-        <tr>
-            <th>Tasks</th>
-        </tr>
-    </th>
-    <tbody id="list">
-
-    </tbody>
-</table>
+    <header>
+        <h1 class="title">To do list</h1>
+    </header>
+    
+    <section class="input-section">
+        <input type="text" placeholder="task" id="task" class="task-input">
+        <button type="button" id="addBtn" class="add-button">Add To List</button>
+    </section>
+ 
+    <table class="task-table">
+        <thead>
+            <tr>
+                <th>Tasks</th>
+                <th>Status</th>
+                <th>Actions</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="list"></tbody>
+    </table>
 
 </body>
 </html>
